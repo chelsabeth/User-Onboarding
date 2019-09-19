@@ -38,7 +38,7 @@ return (
             </ul>
         ))}
     </div> 
-)}
+)};
 
 const FormikUserForm = withFormik({
     mapPropsToValues({name, email, password, terms}) {
@@ -48,7 +48,12 @@ const FormikUserForm = withFormik({
             password: password || "",
             terms: terms || false
         };
-    }
+    },
+    validationSchema: Yup.object().shape({
+        name: Yup.string().required("Name is a required field"),
+        password: Yup.string().required("password required")
+    })
+
 })(UserForm);
 console.log("This is the HOC", FormikUserForm);
 export default Form;
