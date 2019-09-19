@@ -3,7 +3,7 @@ import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 
-const UserForm = ({ values, errros, touched, status }) => {
+const UserForm = ({ values, errors, touched, status }) => {
     const [user, setUser] = useState([]);
     useEffect(() => {
         if (status) {
@@ -16,12 +16,12 @@ return (
     <div className="user-form">
         <Form>
             <Field type="text" name="name" placeholder="Name" />
-            {touched.name && errros.name && ( <p className="error">{errros.name}</p>)}
+            {touched.name && errors.name && ( <p className="error">{errors.name}</p>)}
 
             <Field type="text" name="email" placeholder="Email" />
 
-            <Field type="text" name="password" placeholder="Password" />
-            {touched.password && errros.password && ( <p className="error">{errros.password}</p>)}
+            <Field type="password" name="password" placeholder="Password" />
+            {touched.password && errors.password && ( <p className="error">{errors.password}</p>)}
 
             <label>
                 Terms Of Service
@@ -49,11 +49,22 @@ const FormikUserForm = withFormik({
             terms: terms || false
         };
     },
+
     validationSchema: Yup.object().shape({
         name: Yup.string().required("Name is a required field"),
         password: Yup.string().required("password required")
-    })
+    }),
+
+    handleSubmit(values, {setStatus}) {
+        axios
+            .post(" https://reqres.in/api/users", values)
+            .then(res => {
+                setStatus(res.data);
+                console.log("Here is your response", res.data);
+            })
+            .catch(err => console.log("Sorry an error has occured", err.res))
+    }
 
 })(UserForm);
 console.log("This is the HOC", FormikUserForm);
-export default Form;
+export default FormikUserForm;
