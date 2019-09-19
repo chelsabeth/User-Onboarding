@@ -17,12 +17,26 @@ return (
         <Form>
             <Field type="text" name="name" placeholder="Name" />
             {touched.name && errros.name && ( <p className="error">{errros.name}</p>)}
-            
+
             <Field type="text" name="email" placeholder="Email" />
+
             <Field type="text" name="password" placeholder="Password" />
-            <Field type="checkbox" name="terms" checked={values.terms}/>
-            <button>Submit!</button>
+            {touched.password && errros.password && ( <p className="error">{errros.password}</p>)}
+
+            <label>
+                Terms Of Service
+                <Field type="checkbox" name="terms" checked={values.terms}/>
+            </label>
+
+                <button>Submit!</button>
         </Form>
+        {user.map(users => (
+            <ul key={users.id}>
+                <li>Name: {users.name}</li>
+                <li>Email: {users.email}</li>
+                <li>Password: {users.password}</li>
+            </ul>
+        ))}
     </div> 
 )}
 
@@ -32,7 +46,7 @@ const FormikUserForm = withFormik({
             name: name || "",
             email: email || "",
             password: password || "",
-            terms: terms || ""
+            terms: terms || false
         };
     }
 })(UserForm);
