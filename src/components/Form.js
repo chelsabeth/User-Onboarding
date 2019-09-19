@@ -16,8 +16,12 @@ return (
     <div className="user-form">
         <Form>
             <Field type="text" name="name" placeholder="Name" />
+            {touched.name && errros.name && ( <p className="error">{errros.name}</p>)}
+            
             <Field type="text" name="email" placeholder="Email" />
-
+            <Field type="text" name="password" placeholder="Password" />
+            <Field type="checkbox" name="terms" checked={values.terms}/>
+            <button>Submit!</button>
         </Form>
     </div> 
 )}
