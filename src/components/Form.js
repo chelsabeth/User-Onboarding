@@ -10,15 +10,27 @@ const UserForm = ({ values, errros, touched, status }) => {
             setUser([...user, status]);
         }
     }, [status]);
-}
+
 
 return (
     <div className="user-form">
         <Form>
             <Field type="text" name="name" placeholder="Name" />
+            <Field type="text" name="email" placeholder="Email" />
 
         </Form>
     </div> 
-)
+)}
 
+const FormikUserForm = withFormik({
+    mapPropsToValues({name, email, password, terms}) {
+        return {
+            name: name || "",
+            email: email || "",
+            password: password || "",
+            terms: terms || ""
+        };
+    }
+})(UserForm);
+console.log("This is the HOC", FormikUserForm);
 export default Form;
